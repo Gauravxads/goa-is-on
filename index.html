@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Goa '27 Crew Trip</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: iOS-style single-column app; large titles, inset grouped lists, bento tiles, floating glass tab bar with five hash-routed views */
+:root{
+  --bg:#F5F5F7; --card:#FFFFFF; --fill:#EDEDF0; --fg:#1D1D1F; --muted:#6E6E73; --line:rgba(0,0,0,.08);
+  --blue:#0071E3; --orange:#FF9F0A; --pink:#FF375F; --teal:#30B0C7; --green:#34C759; --indigo:#5E5CE6; --red:#FF3B30;
+  --glass:rgba(250,250,252,.72);
+  --f:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter","Helvetica Neue",Arial,sans-serif;
+  --r:22px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#000000; --card:#1C1C1E; --fill:#2C2C2E; --fg:#F5F5F7; --muted:#98989D; --line:rgba(255,255,255,.1);
+  --blue:#2997FF; --orange:#FF9F0A; --pink:#FF375F; --teal:#40C8E0; --green:#30D158; --indigo:#7D7AFF; --red:#FF453A;
+  --glass:rgba(30,30,32,.72); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --card:#1C1C1E; --fill:#2C2C2E; --fg:#F5F5F7; --muted:#98989D; --line:rgba(255,255,255,.1);
+  --blue:#2997FF; --orange:#FF9F0A; --pink:#FF375F; --teal:#40C8E0; --green:#30D158; --indigo:#7D7AFF; --red:#FF453A;
+  --glass:rgba(30,30,32,.72); color-scheme:dark}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);font-size:17px;line-height:1.47;letter-spacing:-.022em;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+h1,h2{text-wrap:balance}
+a{color:var(--blue);text-decoration:none}
+button{font:inherit;color:inherit;letter-spacing:inherit}
+button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+
+.app{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 140px}
+
+/* top bar */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding:10px max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:center;align-items:center;min-height:48px;background:transparent;transition:background .25s,border-color .25s;border-bottom:.5px solid transparent}
+.topbar.solid{background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom-color:var(--line)}
+.topbar .tt{font-weight:600;font-size:17px;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s}
+.topbar.solid .tt{opacity:1;transform:none}
+
+/* views */
+.view{display:none}
+.view.on{display:block;animation:viewIn .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes viewIn{from{transform:translateY(14px);opacity:.25}to{transform:none;opacity:1}}
+.view.on .st{animation:pop .6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0) * 60ms)}
+@keyframes pop{from{transform:translateY(16px) scale(.985);opacity:.3}to{transform:none;opacity:1}}
+
+.large{font-size:clamp(34px,7vw,40px);font-weight:700;letter-spacing:-.03em;line-height:1.08;margin:6px 0 4px}
+.lead{color:var(--muted);font-size:17px;margin-bottom:22px}
+.sec{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:34px 4px 12px}
+.cap{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.02em;font-weight:500;margin:26px 16px 8px}
+.foot{font-size:13px;color:var(--muted);margin:8px 16px 0;letter-spacing:-.01em}
+
+/* hero */
+.hero{text-align:center;padding:26px 0 8px}
+.hero .eyebrow{font-size:17px;font-weight:600;color:var(--orange)}
+.hero h1{font-size:clamp(64px,18vw,112px);font-weight:800;letter-spacing:-.055em;line-height:.95;margin:6px 0 10px;
+  background:linear-gradient(100deg,var(--orange) 0%,var(--pink) 45%,var(--indigo) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:sheen 8s ease-in-out infinite alternate}
+@keyframes sheen{to{background-position:100% 0}}
+.hero .sub{font-size:clamp(19px,3.6vw,24px);font-weight:600;letter-spacing:-.02em;max-width:22ch;margin:0 auto}
+.cd{display:flex;justify-content:center;gap:clamp(10px,3vw,22px);margin:28px 0 6px}
+.cd div{min-width:64px}
+.cd b{display:block;font-size:clamp(38px,9vw,56px);font-weight:700;letter-spacing:-.04em;line-height:1}
+.cd small{font-size:12px;color:var(--muted);font-weight:500}
+.cd .colon{font-size:clamp(30px,7vw,44px);font-weight:300;color:var(--muted);min-width:0;padding-top:2px}
+.hero .when{font-size:15px;color:var(--muted);margin-top:10px}
+
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.tile{background:var(--card);border-radius:var(--r);padding:20px;min-width:0;position:relative;overflow:hidden}
+.tile.wide{grid-column:1/-1}
+.tile .k{font-size:13px;font-weight:600;color:var(--muted)}
+.tile .v{font-size:28px;font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-top:6px}
+.tile .s{font-size:15px;color:var(--muted);margin-top:4px}
+.tile.dark{background:#1D1D1F;color:#F5F5F7}
+.tile.dark .k,.tile.dark .s{color:#A1A1A6}
+.tile.grad{background:linear-gradient(135deg,var(--orange),var(--pink));color:#fff}
+.tile.grad .k,.tile.grad .s{color:rgba(255,255,255,.85)}
+.tile .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;margin-bottom:10px}
+.tile .ic svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.route svg{width:100%;height:auto;display:block;overflow:visible;margin-top:10px}
+.route text{font-size:11px;fill:#A1A1A6;font-family:var(--f);font-weight:500}
+.route .rail{fill:none;stroke:#48484A;stroke-width:3;stroke-linecap:round}
+.route .prog{fill:none;stroke:url(#rg);stroke-width:3;stroke-linecap:round;stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 3.2s cubic-bezier(.4,0,.2,1) .3s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.route .stn{fill:#1D1D1F;stroke:#F5F5F7;stroke-width:2}
+
+.avatars{display:flex;flex-wrap:wrap;gap:14px 10px;justify-content:space-between;margin-top:12px}
+.av{display:flex;flex-direction:column;align-items:center;gap:6px;width:calc(25% - 8px)}
+.av span{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:19px;color:#fff}
+.av small{font-size:12px;color:var(--muted);font-weight:500;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* grouped list */
+.group{background:var(--card);border-radius:var(--r);overflow:hidden}
+.row{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:12px 16px;position:relative;min-height:52px}
+.row+.row::before{content:"";position:absolute;top:0;right:0;left:60px;border-top:.5px solid var(--line)}
+.group.plain .row+.row::before{left:16px}
+.row .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#fff;font-size:13px;font-weight:700}
+.row .ic svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.row .t{min-width:0}
+.row .t b{display:block;font-weight:500;font-size:17px;letter-spacing:-.02em}
+.row .t small{display:block;font-size:14px;color:var(--muted);line-height:1.35;margin-top:1px}
+.row .r{font-size:17px;color:var(--muted);text-align:right;white-space:nowrap}
+.row .r b{color:var(--fg);font-weight:600}
+.row .r small{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+.chev{color:var(--muted);opacity:.6;font-size:20px;line-height:1}
+a.row{color:inherit}
+a.row:active,button.row:active{background:var(--fill)}
+
+/* tickets */
+.ticket{background:var(--card);border-radius:var(--r);padding:20px;position:relative}
+.ticket+.ticket{margin-top:12px}
+.ticket .hd{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--fill);color:var(--fg)}
+.pill.b{background:color-mix(in srgb,var(--blue) 14%,transparent);color:var(--blue)}
+.pill.o{background:color-mix(in srgb,var(--orange) 16%,transparent);color:var(--orange)}
+.pill.g{background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--green)}
+.pill.r{background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red)}
+.legs{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;margin:18px 0 4px}
+.legs .tm{font-size:34px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.legs .pl{font-size:14px;color:var(--muted);margin-top:4px}
+.legs .mid{text-align:center;font-size:13px;color:var(--muted);position:relative}
+.legs .mid i{display:block;height:2px;background:var(--fill);border-radius:2px;margin:6px 0;position:relative;overflow:hidden}
+.legs .mid i::after{content:"";position:absolute;inset:0;width:30%;background:var(--blue);border-radius:2px;animation:run 2.4s ease-in-out infinite}
+@keyframes run{from{transform:translateX(-100%)}to{transform:translateX(340%)}}
+.legs .end{text-align:right}
+
+.banner{border-radius:var(--r);padding:16px 18px;display:flex;gap:12px;align-items:flex-start;margin-top:12px;background:color-mix(in srgb,var(--orange) 14%,var(--card))}
+.banner .dot{flex:0 0 10px;height:10px;margin-top:7px;border-radius:50%;background:var(--orange);animation:ping 2s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--orange) 60%,transparent)}100%{box-shadow:0 0 0 12px transparent}}
+.banner p{font-size:15px;line-height:1.45}
+.banner.red{background:color-mix(in srgb,var(--red) 12%,var(--card))}
+.banner.red .dot{background:var(--red)}
+
+/* villa */
+.villa{background:var(--card);border-radius:var(--r);overflow:hidden}
+.villa .art{aspect-ratio:16/8;max-width:100%;background:linear-gradient(180deg,#FFB86B 0%,#FF7A8A 55%,#7D7AFF 100%);position:relative;overflow:hidden}
+.villa .art svg{position:absolute;inset:0;width:100%;height:100%}
+.villa .body{padding:20px}
+.villa .body h3{font-size:24px;font-weight:700;letter-spacing:-.03em;margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}
+.stats div{background:var(--fill);border-radius:14px;padding:10px 6px;text-align:center}
+.stats b{display:block;font-size:22px;font-weight:700;letter-spacing:-.03em}
+.stats small{font-size:12px;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--blue);color:#fff;font-weight:500;font-size:17px;padding:11px 22px;border-radius:980px;border:0;cursor:pointer;transition:transform .15s}
+.btn:active{transform:scale(.97)}
+.btn.sec2{background:var(--fill);color:var(--blue)}
+
+/* segmented */
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--fill);border-radius:10px;padding:2px;position:relative;margin-bottom:16px}
+.seg button{border:0;background:transparent;padding:7px 8px;font-size:14px;font-weight:600;border-radius:8px;cursor:pointer;position:relative;z-index:1;color:var(--fg)}
+.seg .thumb{position:absolute;top:2px;bottom:2px;left:2px;border-radius:8px;background:var(--card);box-shadow:0 3px 8px rgba(0,0,0,.12),0 0 1px rgba(0,0,0,.1);transition:transform .35s cubic-bezier(.3,.9,.3,1)}
+
+/* money */
+.money{background:var(--card);border-radius:var(--r);padding:24px 20px;text-align:center}
+.money .k{font-size:15px;color:var(--muted);font-weight:500}
+.money .big{font-size:clamp(56px,15vw,80px);font-weight:700;letter-spacing:-.05em;line-height:1;margin:8px 0 4px}
+.money .grp{font-size:15px;color:var(--muted)}
+.bar{display:flex;height:12px;border-radius:999px;overflow:hidden;gap:2px;margin:22px 0 6px;background:var(--fill)}
+.bar i{display:block;height:100%;transition:flex-grow .7s cubic-bezier(.3,.9,.3,1)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+
+/* plan */
+.days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
+.days button{border:0;background:var(--card);border-radius:16px;padding:10px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:background .25s,color .25s,transform .15s}
+.days button:active{transform:scale(.96)}
+.days small{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase}
+.days b{font-size:22px;font-weight:700;letter-spacing:-.03em}
+.days button[aria-selected="true"]{background:var(--fg);color:var(--bg)}
+.days button[aria-selected="true"] small{color:inherit;opacity:.7}
+.dayhead{margin:4px 4px 14px}
+.dayhead h2{font-size:28px;font-weight:700;letter-spacing:-.03em}
+.dayhead p{color:var(--muted);font-size:15px}
+.tl{background:var(--card);border-radius:var(--r);padding:8px 0}
+.ev{display:grid;grid-template-columns:58px 22px 1fr;gap:6px;padding:10px 16px 10px 12px;animation:pop .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i) * 45ms)}
+.ev .tm{font-size:14px;font-weight:600;color:var(--muted);text-align:right;padding-top:2px}
+.ev .rail{position:relative;display:flex;justify-content:center}
+.ev .rail::before{content:"";position:absolute;top:0;bottom:-20px;width:2px;background:var(--fill)}
+.ev:last-child .rail::before{display:none}
+.ev .rail i{position:relative;width:12px;height:12px;border-radius:50%;margin-top:6px;box-shadow:0 0 0 4px var(--card)}
+.ev .bd{min-width:0}
+.ev .lab{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.02em}
+.ev .bd b{display:block;font-weight:600;font-size:17px;letter-spacing:-.02em;line-height:1.3}
+.ev .bd p{font-size:15px;color:var(--muted);line-height:1.4;margin-top:2px}
+.ev .bd a{font-size:14px;font-weight:500}
+.swipehint{font-size:13px;color:var(--muted);text-align:center;margin-top:12px}
+
+/* clubs */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.club{background:var(--card);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+.club:hover{transform:scale(1.015);box-shadow:0 12px 30px rgba(0,0,0,.08)}
+.club .area{font-size:13px;font-weight:600}
+.club h3{font-size:22px;font-weight:700;letter-spacing:-.03em}
+.club p{font-size:15px;color:var(--muted);line-height:1.4}
+.club .pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+.club a{font-size:15px;font-weight:500}
+
+/* tab bar */
+.tabbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;gap:2px;padding:6px;border-radius:999px;background:var(--glass);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);box-shadow:0 10px 30px rgba(0,0,0,.14),0 0 0 .5px var(--line);width:min(440px,calc(100% - 24px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)))}
+.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px 6px;border-radius:999px;color:var(--muted);font-size:10.5px;font-weight:600;letter-spacing:0;transition:color .2s,background .25s}
+.tabbar svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tabbar a.on{color:var(--blue);background:color-mix(in srgb,var(--blue) 12%,transparent)}
+
+@media (max-width:520px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .cards{grid-template-columns:1fr}
+  .legs .tm{font-size:28px}
+  .days b{font-size:19px}
+  .days small{font-size:11px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .route .prog{stroke-dashoffset:0}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="topbar" id="topbar"><span class="tt" id="tt">Goa '27</span></div>
+
+  <!-- TRIP -->
+  <section class="view" id="v-trip" data-title="Goa '27">
+    <div class="hero st" style="--i:0">
+      <p class="eyebrow">22 – 27 January 2027</p>
+      <h1>Goa '27.</h1>
+      <p class="sub">Eight friends. One heritage villa. Four days of North Goa.</p>
+      <div class="cd num" aria-label="Countdown to departure">
+        <div><b id="cd-d">86</b><small>days</small></div><div class="colon">:</div>
+        <div><b id="cd-h">08</b><small>hours</small></div><div class="colon">:</div>
+        <div><b id="cd-m">40</b><small>min</small></div><div class="colon">:</div>
+        <div><b id="cd-s">00</b><small>sec</small></div>
+      </div>
+      <p class="when">until the train leaves CSMT</p>
+    </div>
+
+    <div class="bento" style="margin-top:26px">
+      <div class="tile dark wide route st" style="--i:1">
+        <p class="k">The route</p>
+        <p class="v">Mumbai to Thivim, overnight.</p>
+        <p class="s">Konkan Kanya Express, AC 3-tier, along the coast.</p>
+        <svg viewBox="0 0 640 90" aria-hidden="true">
+          <defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="#FF9F0A"/><stop offset=".5" stop-color="#FF375F"/><stop offset="1" stop-color="#7D7AFF"/></linearGradient></defs>
+          <path class="rail" d="M20 40 C 120 10, 180 64, 260 40 S 420 14, 480 40 S 580 62, 620 36"/>
+          <path class="prog" pathLength="1000" d="M20 40 C 120 10, 180 64, 260 40 S 420 14, 480 40 S 580 62, 620 36"/>
+          <circle class="stn" cx="20" cy="40" r="6"/><text x="20" y="68" text-anchor="middle">CSMT</text>
+          <circle class="stn" cx="260" cy="40" r="4"/><text x="260" y="68" text-anchor="middle">Ratnagiri</text>
+          <circle class="stn" cx="480" cy="40" r="4"/><text x="480" y="20" text-anchor="middle">Kudal</text>
+          <circle class="stn" cx="620" cy="36" r="6"/><text x="620" y="64" text-anchor="middle">Thivim</text>
+        </svg>
+      </div>
+      <a class="tile grad st" style="--i:2" href="#money">
+        <p class="k">Per person</p><p class="v num" id="t-pp">₹20,550</p><p class="s">Balanced estimate</p>
+      </a>
+      <a class="tile st" style="--i:3" href="#trip-villa" data-scroll="villa">
+        <p class="k">Stay</p><p class="v">3 nights</p><p class="s">Villa Ananya, Saligao</p>
+      </a>
+      <div class="tile st" style="--i:4">
+        <div class="ic" style="background:var(--blue)"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        <p class="k">Leave</p><p class="v num">Fri 22</p><p class="s">23:02 · CSMT</p>
+      </div>
+      <div class="tile st" style="--i:5">
+        <div class="ic" style="background:var(--indigo)"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></div>
+        <p class="k">Back</p><p class="v num">Wed 27</p><p class="s">05:40 · CSMT</p>
+      </div>
+    </div>
+
+    <h2 class="sec">Trains</h2>
+    <div class="ticket">
+      <div class="hd"><span class="pill b">Onward · 20111</span><span class="pill">AC 3-tier · ₹1,120</span></div>
+      <div class="legs num">
+        <div><div class="tm">23:02</div><div class="pl">CSMT · Fri 22 Jan</div></div>
+        <div class="mid">9h 08m<i></i></div>
+        <div class="end"><div class="tm">08:10</div><div class="pl">Thivim · Sat 23 Jan</div></div>
+      </div>
+    </div>
+    <div class="ticket">
+      <div class="hd"><span class="pill b" style="color:var(--indigo);background:color-mix(in srgb,var(--indigo) 14%,transparent)">Return · 20112</span><span class="pill">AC 3-tier · ₹1,120</span></div>
+      <div class="legs num">
+        <div><div class="tm">20:02</div><div class="pl">Thivim · Tue 26 Jan</div></div>
+        <div class="mid">9h 38m<i></i></div>
+        <div class="end"><div class="tm">05:40</div><div class="pl">CSMT · Wed 27 Jan</div></div>
+      </div>
+    </div>
+    <div class="banner"><span class="dot" aria-hidden="true"></span><p><b>Book the day it opens.</b> December dates are already waitlisted. Onward opens around <b>23 Nov</b>, return around <b>27 Nov</b>, 8 AM on IRCTC. All 8 on one PNR each way.</p></div>
+
+    <h2 class="sec" id="villa">Villa</h2>
+    <div class="villa">
+      <div class="art" aria-hidden="true">
+        <svg viewBox="0 0 640 320" preserveAspectRatio="xMidYMax slice">
+          <circle cx="470" cy="120" r="46" fill="#FFE4A8" opacity=".95"><animate attributeName="cy" values="120;108;120" dur="7s" repeatCount="indefinite"/></circle>
+          <path d="M0 250 Q 160 230 320 250 T 640 250 V320 H0Z" fill="#1D1D1F" opacity=".18"/>
+          <rect x="180" y="170" width="280" height="120" rx="4" fill="#FFF6EE"/>
+          <path d="M160 174 L320 112 L480 174 Z" fill="#C8553D"/>
+          <path d="M300 290 v-58 a20 20 0 0 1 40 0 v58z" fill="#FF9F0A"/>
+          <path d="M210 260 v-40 a16 16 0 0 1 32 0 v40z M398 260 v-40 a16 16 0 0 1 32 0 v40z" fill="#5E5CE6" opacity=".8"/>
+          <path d="M90 300 C 92 230, 104 190, 120 160" stroke="#1D1D1F" stroke-width="7" fill="none" stroke-linecap="round" opacity=".7"/>
+          <path d="M120 160 c -26 -6 -50 4 -60 16 M120 160 c 22 -10 46 -6 58 8 M120 160 c -8 -22 -2 -36 8 -44 M120 160 c 14 -14 30 -18 42 -14" stroke="#1D1D1F" stroke-width="6" fill="none" stroke-linecap="round" opacity=".7"/>
+          <path d="M0 300 Q 160 290 320 300 T 640 300 V320 H0Z" fill="#0A84FF" opacity=".55"><animate attributeName="d" dur="5s" repeatCount="indefinite" values="M0 300 Q 160 290 320 300 T 640 300 V320 H0Z;M0 300 Q 160 310 320 300 T 640 300 V320 H0Z;M0 300 Q 160 290 320 300 T 640 300 V320 H0Z"/></path>
+        </svg>
+      </div>
+      <div class="body">
+        <span class="pill o">★ 4.88 · Superhost</span>
+        <h3>Villa Ananya</h3>
+        <p style="color:var(--muted);font-size:15px">A restored 150-year-old Portuguese home in Saligao, about 10 minutes from Calangute and Baga.</p>
+        <div class="stats num"><div><b>4</b><small>bedrooms</small></div><div><b>3</b><small>baths</small></div><div><b>1</b><small>pool</small></div><div><b>₹5,344</b><small>each</small></div></div>
+        <a class="btn" href="https://www.airbnb.co.in/rooms/1467472065276692587?adults=8&check_in=2027-01-23&check_out=2027-01-26" target="_blank" rel="noopener">View on Airbnb</a>
+      </div>
+    </div>
+    <p class="cap">House details</p>
+    <div class="group plain">
+      <div class="row"><span></span><span class="t"><b>Check-in</b></span><span class="r">Sat 23 Jan</span></div>
+      <div class="row"><span></span><span class="t"><b>Check-out</b></span><span class="r">Tue 26 Jan</span></div>
+      <div class="row"><span></span><span class="t"><b>Total incl. fees</b></span><span class="r num"><b>₹42,750</b></span></div>
+      <div class="row"><span></span><span class="t"><b>Pool hours</b></span><span class="r">7 AM – 7 PM</span></div>
+      <div class="row"><span></span><span class="t"><b>Quiet after</b></span><span class="r">10 PM</span></div>
+      <div class="row"><span></span><span class="t"><b>Free cancellation</b></span><span class="r">Before 24 Dec</span></div>
+    </div>
+  </section>
+
+  <!-- PLAN -->
+  <section class="view" id="v-plan" data-title="Plan">
+    <h1 class="large">Plan</h1>
+    <p class="lead">Day by day, with a pick for every meal.</p>
+    <div class="days" role="tablist" id="days"></div>
+    <div id="dayview"></div>
+    <p class="swipehint">Swipe left or right to change day</p>
+  </section>
+
+  <!-- MONEY -->
+  <section class="view" id="v-money" data-title="Money">
+    <h1 class="large">Money</h1>
+    <p class="lead">Trains and villa are fixed. The rest is a peak-season estimate.</p>
+    <div class="seg" id="seg" role="group" aria-label="Spending style">
+      <span class="thumb" id="thumb"></span>
+      <button type="button" id="m-chill" data-m="chill">Chill</button>
+      <button type="button" id="m-bal" data-m="bal">Balanced</button>
+      <button type="button" id="m-full" data-m="full">Full send</button>
+    </div>
+    <div class="money">
+      <p class="k">Each person pays</p>
+      <p class="big num" id="pp">₹20,550</p>
+      <p class="grp num" id="grp">₹1,64,400 for all 8</p>
+      <div class="bar" id="bar" aria-hidden="true"></div>
+    </div>
+    <div class="two">
+      <div class="tile"><p class="k">Pay now</p><p class="v num">₹7,584</p><p class="s">Trains + villa</p></div>
+      <div class="tile"><p class="k">Carry to Goa</p><p class="v num" id="carry">₹12,950</p><p class="s">Cash and UPI</p></div>
+    </div>
+    <p class="cap">Breakdown per person</p>
+    <div class="group" id="lines"></div>
+    <p class="foot">Scooties run ₹300–800 a day in peak season. Club cover is ₹1,500–3,000 for stags and often free or cheaper for women, so that line is an average.</p>
+  </section>
+
+  <!-- NIGHTS -->
+  <section class="view" id="v-nights" data-title="Nights">
+    <h1 class="large">Nights</h1>
+    <p class="lead">Where to dance, and where to stock up.</p>
+    <div class="seg" id="seg2" role="group" aria-label="Show">
+      <span class="thumb" id="thumb2"></span>
+      <button type="button" id="n-clubs" data-n="clubs">Clubs</button>
+      <button type="button" id="n-shops" data-n="shops">Wine shops</button>
+    </div>
+    <div id="clubs" class="cards"></div>
+    <div id="shops" hidden>
+      <div class="banner red" style="margin:0 0 12px"><span class="dot" aria-hidden="true"></span><p><b>26 Jan is a dry day.</b> Nothing is sold anywhere on Republic Day. Buy for Monday night before 10 PM on Monday.</p></div>
+      <div class="group" id="shoplist"></div>
+      <p class="foot">Distances are rough, from Saligao. Most shops close around 10 PM. Try local: Cabo rum, Pistola agave, Stranger & Sons gin, cashew feni.</p>
+    </div>
+  </section>
+
+  <!-- INFO -->
+  <section class="view" id="v-info" data-title="Crew">
+    <h1 class="large">Crew</h1>
+    <p class="lead">Eight of us. Meet at CSMT, 22:15 on Friday.</p>
+    <div class="tile"><div class="avatars" id="avatars"></div></div>
+    <p class="cap">Ground rules</p>
+    <div class="group" id="rules"></div>
+    <p class="cap">Links</p>
+    <div class="group plain">
+      <a class="row" href="https://www.irctc.co.in" target="_blank" rel="noopener"><span></span><span class="t"><b>IRCTC</b><small>Book Konkan Kanya</small></span><span class="chev">›</span></a>
+      <a class="row" href="https://www.airbnb.co.in/rooms/1467472065276692587" target="_blank" rel="noopener"><span></span><span class="t"><b>Villa Ananya</b><small>Airbnb listing</small></span><span class="chev">›</span></a>
+    </div>
+  </section>
+</div>
+
+<nav class="tabbar" aria-label="Sections">
+  <a href="#trip" data-v="trip"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>Trip</a>
+  <a href="#plan" data-v="plan"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Plan</a>
+  <a href="#money" data-v="money"><svg viewBox="0 0 24 24"><path d="M7 5h10M7 9h10M7 5c5 0 7 1.5 7 4s-3 4-7 4l7 7"/></svg>Money</a>
+  <a href="#nights" data-v="nights"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>Nights</a>
+  <a href="#info" data-v="info"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 13.6c3 .2 5.5 2 5.5 5"/></svg>Crew</a>
+</nav>
+
+<script>
+(function(){
+  var $ = function(s){return document.querySelector(s)};
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fmt = function(n){return "₹" + Math.round(n).toLocaleString("en-IN")};
+  var r50 = function(n){return Math.round(n/50)*50};
+
+  /* ---------- countdown ---------- */
+  var target = new Date("2027-01-22T23:02:00+05:30").getTime();
+  function pad(n){return String(n).padStart(2,"0")}
+  function tick(){
+    var t = Math.max(0, target - Date.now());
+    $("#cd-d").textContent = Math.floor(t/864e5);
+    $("#cd-h").textContent = pad(Math.floor(t%864e5/36e5));
+    $("#cd-m").textContent = pad(Math.floor(t%36e5/6e4));
+    $("#cd-s").textContent = pad(Math.floor(t%6e4/1e3));
+  }
+  tick(); setInterval(tick,1000);
+
+  /* ---------- plan ---------- */
+  var C = {b:"var(--orange)",l:"var(--green)",d:"var(--pink)",n:"var(--indigo)",t:"var(--blue)",x:"var(--muted)"};
+  var L = {b:"Breakfast",l:"Lunch",d:"Dinner",n:"Night",t:"Travel",x:"Free time"};
+  var days = [
+    {dow:"Fri",d:22,title:"Departure night",sub:"Board the overnight train",ev:[
+      ["21:00","d","Eat at home","Pack light. Carry snacks and water for the train."],
+      ["22:15","t","Meet at CSMT","All eight at the main concourse. Train leaves 23:02 sharp."],
+      ["23:02","t","20111 departs","Sleep. Wake up in Goa."]]},
+    {dow:"Sat",d:23,title:"Arrive + Baga night",sub:"Calangute and Tito's Lane",ev:[
+      ["08:10","t","Thivim → villa","Two cabs from the prepaid counter at the platform 1 exit, about 40 min. Ask the host for early bag drop."],
+      ["09:30","b","Infantaria, Calangute","Old bakery. Croissants, Goan sausage bread, strong coffee.","Infantaria Calangute Goa"],
+      ["11:00","x","Pick up 4 scooties","The host team helps arrange them. Carry your licence."],
+      ["13:30","l","Souza Lobo, Calangute beach","On the sand since 1932. Fish thali, prawn curry rice.","Souza Lobo Calangute Goa"],
+      ["17:30","x","Sunset on Baga beach","Walk the beach till dark."],
+      ["20:00","d","Britto's, Baga","Seafood, cocktails, live music. Go early on a Saturday.","Brittos Baga Goa"],
+      ["22:30","n","Tito's → Café Mambo","Saturday is the loudest night on the lane.","Titos Lane Baga Goa"]]},
+    {dow:"Sun",d:24,title:"Anjuna + Vagator",sub:"Forts, cliffs and the best sunset",ev:[
+      ["10:00","b","Artjuna, Anjuna","Garden café in an old Portuguese house. Shakshuka, smoothie bowls.","Artjuna Anjuna Goa"],
+      ["11:30","x","Chapora Fort","The Dil Chahta Hai fort. Short climb, big view.","Chapora Fort Goa"],
+      ["13:30","l","Curlies, Anjuna beach","Classic shack. Prawn lollipops, cocktails, sea view.","Curlies Anjuna Goa"],
+      ["15:30","x","Villa pool","Pool closes at 7 PM."],
+      ["18:00","d","Thalassa, Vagator","Greek food on a cliff at sunset. Book a table for 8.","Thalassa Vagator Goa"],
+      ["22:00","n","Hilltop or 9 Bar, Vagator","Open-air spots often stop music at 10 PM. Check for an indoor event.","Hilltop Vagator Goa"]]},
+    {dow:"Mon",d:25,title:"Slow day + last night",sub:"Assagao food, then Candolim",ev:[
+      ["10:30","b","Bodega, Assagao","Specialty coffee in a heritage house. Or cook at the villa.","Bodega Assagao Goa"],
+      ["12:00","x","Pool and games",""],
+      ["14:00","l","Gunpowder, Assagao","South Indian and Goan. Andhra prawn curry, appam and stew. Reserve.","Gunpowder Assagao Goa"],
+      ["18:00","x","Stock up before 10 PM","Tomorrow is a dry day. Nothing will be sold."],
+      ["20:00","d","Fisherman's Wharf or a Candolim shack","Close to the villa, easy before heading out.","Fishermans Wharf Candolim Goa"],
+      ["22:00","n","SinQ, Candolim","Closest big club to Saligao. LPK Waterfront is the backup.","SinQ Night Club Candolim Goa"]]},
+    {dow:"Tue",d:26,title:"Checkout + home",sub:"Panjim lunch, evening train",dry:true,ev:[
+      ["09:30","b","Mojigao, Assagao","Eggs, smoothie bowls, sandwiches. Then pack.","Mojigao Assagao Goa"],
+      ["11:00","x","Check out","Return scooties. Ask the host to hold bags."],
+      ["13:00","l","Mum's Kitchen, Panjim","Home-style Goan food. Walk Fontainhas after.","Mums Kitchen Panjim Goa"],
+      ["18:30","t","Cab to Thivim","About 40 min. Be on the platform by 19:30."],
+      ["19:30","d","Order to the station","Zomato and Swiggy deliver to Thivim station."],
+      ["20:02","t","20112 to CSMT","Arrive Wed 27 Jan at 05:40."]]}
+  ];
+  var cur = 0;
+  var daysEl = $("#days"), dv = $("#dayview");
+  days.forEach(function(d,i){
+    var b = document.createElement("button");
+    b.type="button"; b.id="day-"+d.d; b.setAttribute("role","tab");
+    b.innerHTML = "<small>"+d.dow+"</small><b class='num'>"+d.d+"</b>";
+    b.addEventListener("click",function(){showDay(i)});
+    daysEl.appendChild(b);
+  });
+  function esc(s){var e=document.createElement("span");e.textContent=s;return e.innerHTML}
+  function showDay(i){
+    cur = i; var d = days[i];
+    [].forEach.call(daysEl.children,function(b,j){b.setAttribute("aria-selected", j===i?"true":"false")});
+    var h = "<div class='dayhead'><h2>"+esc(d.title)+"</h2><p>"+d.dow+" "+d.d+" Jan · "+esc(d.sub)+"</p></div>";
+    if(d.dry) h += "<div class='banner red' style='margin:0 0 12px'><span class='dot'></span><p><b>Dry day.</b> Republic Day. No alcohol sold in shops, bars or restaurants.</p></div>";
+    h += "<div class='tl'>";
+    d.ev.forEach(function(e,k){
+      h += "<div class='ev' style='--i:"+k+"'><div class='tm num'>"+e[0]+"</div><div class='rail'><i style='background:"+C[e[1]]+"'></i></div><div class='bd'><div class='lab' style='color:"+C[e[1]]+"'>"+L[e[1]]+"</div><b>"+esc(e[2])+"</b>"+(e[3]?"<p>"+esc(e[3])+"</p>":"")+(e[4]?"<a href='https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(e[4])+"' target='_blank' rel='noopener'>Directions ›</a>":"")+"</div></div>";
+    });
+    dv.innerHTML = h + "</div>";
+    try{localStorage.setItem("goa27-day",i)}catch(x){}
+  }
+  try{var sd = +localStorage.getItem("goa27-day"); if(sd>=0 && sd<days.length) cur = sd;}catch(x){}
+  showDay(cur);
+  var sx=null, sy=null;
+  dv.addEventListener("touchstart",function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+  dv.addEventListener("touchend",function(e){
+    if(sx===null) return; var dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy; sx=null;
+    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.5){ var n = cur + (dx<0?1:-1); if(n>=0 && n<days.length) showDay(n); }
+  });
+
+  /* ---------- money ---------- */
+  var items = [
+    {k:"Train, both ways",n:"₹1,120 × 2 · AC 3-tier",v:2240,fixed:1,c:"var(--blue)",ic:"T"},
+    {k:"Villa Ananya",n:"₹42,750 ÷ 8 · 3 nights",v:5344,fixed:1,c:"var(--teal)",ic:"V"},
+    {k:"Food",n:"Breakfast, lunch, dinner × 3 days",v:6000,c:"var(--orange)",ic:"F"},
+    {k:"Clubs",n:"Two big nights, redeemable cover",v:3000,c:"var(--indigo)",ic:"C"},
+    {k:"Drinks for the villa",n:"Wine-shop run, split 8 ways",v:1500,c:"var(--pink)",ic:"D"},
+    {k:"Scooties + petrol",n:"4 scooties × 3 days",v:950,c:"var(--green)",ic:"S"},
+    {k:"Station cabs",n:"Thivim ⇄ Saligao, 2 cars each way",v:500,c:"var(--red)",ic:"₹"},
+    {k:"Buffer",n:"Entry fees, tips, surprises",v:1000,c:"var(--muted)",ic:"+"}
+  ];
+  var mult = {chill:.75,bal:1,full:1.4}, mode = "bal";
+  try{var sm = localStorage.getItem("goa27-mode"); if(mult[sm]) mode = sm;}catch(x){}
+  var lines = $("#lines"), bar = $("#bar");
+  items.forEach(function(it){
+    var row = document.createElement("div"); row.className = "row";
+    row.innerHTML = "<span class='ic' style='background:"+it.c+"'>"+it.ic+"</span><span class='t'><b></b><small></small></span><span class='r num'><b class='v'></b><small style='color:"+(it.fixed?"var(--green)":"var(--muted)")+"'>"+(it.fixed?"Fixed":"Estimate")+"</small></span>";
+    row.querySelector(".t b").textContent = it.k; row.querySelector(".t small").textContent = it.n;
+    it.el = row.querySelector(".v"); lines.appendChild(row);
+    var s = document.createElement("i"); s.style.background = it.c; it.seg = s; bar.appendChild(s);
+  });
+  var shown = 0, raf;
+  function countTo(el,to){
+    cancelAnimationFrame(raf); var from = shown, t0 = performance.now(), dur = reduce?0:800;
+    (function st(now){ var p = dur?Math.min(1,(now-t0)/dur):1; p = 1-Math.pow(1-p,4); shown = from+(to-from)*p; el.textContent = fmt(r50(shown)); if(p<1) raf=requestAnimationFrame(st); })(t0);
+  }
+  function placeThumb(seg,thumb,btn){
+    var n = seg.querySelectorAll("button").length, idx = [].indexOf.call(seg.querySelectorAll("button"),btn);
+    thumb.style.width = "calc((100% - 4px) / "+n+")";
+    thumb.style.transform = "translateX("+(idx*100)+"%)";
+  }
+  function renderMoney(){
+    var tot=0, carry=0;
+    items.forEach(function(it){ var v = it.fixed?it.v:r50(it.v*mult[mode]); tot+=v; if(!it.fixed) carry+=v; it.el.textContent = fmt(v); it.seg.style.flexGrow = v; });
+    var pp = r50(tot);
+    countTo($("#pp"),pp);
+    $("#grp").textContent = fmt(pp*8)+" for all 8";
+    $("#carry").textContent = fmt(r50(carry));
+    $("#t-pp").textContent = fmt(pp);
+    $("#t-pp").nextElementSibling.textContent = {chill:"Chill",bal:"Balanced",full:"Full send"}[mode]+" estimate";
+    var btn = $("#seg [data-m='"+mode+"']"); placeThumb($("#seg"),$("#thumb"),btn);
+    [].forEach.call($("#seg").querySelectorAll("button"),function(b){b.setAttribute("aria-pressed",b===btn?"true":"false")});
+  }
+  [].forEach.call($("#seg").querySelectorAll("button"),function(b){
+    b.addEventListener("click",function(){ mode=b.dataset.m; try{localStorage.setItem("goa27-mode",mode)}catch(x){} renderMoney(); });
+  });
+  renderMoney();
+
+  /* ---------- nights ---------- */
+  var clubs = [
+    ["Tito's","Baga","The original Goa club. Commercial, house, Bollywood. Roughly 9 PM to 3:30 AM.",["Couple ~₹2,000","Stag ~₹2,500"],"Sat 23","Titos Club Baga Goa","var(--orange)"],
+    ["Café Mambo","Baga","Beach-facing, on Tito's Lane. Hip-hop and house. Easy to hop between the two.",["Couple ~₹1,500","Stag ~₹3,000"],"Sat 23","Cafe Mambo Baga Goa","var(--orange)"],
+    ["Hilltop","Vagator","Goa's trance landmark. Event-based, so check Sunday's line-up.",["Event pricing"],"Sun 24","Hilltop Vagator Goa","var(--indigo)"],
+    ["Chronicle","Little Vagator","Upscale clifftop club. Around ₹1,600 entry, redeemable on food and drinks.",["~₹1,600 redeemable"],"Sun 24 alt","Chronicle Vagator Goa","var(--indigo)"],
+    ["SinQ","Candolim","Big poolside club, the closest serious night out from Saligao.",["Couple ~₹1,500","Stag ~₹3,000"],"Mon 25","SinQ Night Club Candolim Goa","var(--pink)"],
+    ["LPK Waterfront","Nerul","Sculpted riverside venue near Candolim. Pricing changes with events.",["Varies"],"Mon 25 alt","LPK Waterfront Nerul Goa","var(--pink)"]
+  ];
+  var ch = "";
+  clubs.forEach(function(c,i){
+    ch += "<article class='club st' style='--i:"+i+"'><span class='area' style='color:"+c[6]+"'>"+c[1]+"</span><h3>"+esc(c[0])+"</h3><p>"+esc(c[2])+"</p><div class='pills'>"+c[3].map(function(p){return "<span class='pill'>"+p+"</span>"}).join("")+"<span class='pill g'>"+c[4]+"</span></div><a href='https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(c[5])+"' target='_blank' rel='noopener'>Directions ›</a></article>";
+  });
+  $("#clubs").innerHTML = ch;
+  var shops = [
+    ["Capital Wines","Porba Vaddo, Calangute · 9 AM–10 PM","~4 km","Capital Wines Calangute Goa"],
+    ["Quinta Wine Store","Chalston Rd, Calangute · 8 AM–10 PM","~4 km","Quinta Wine Store Calangute Goa"],
+    ["Wine Palace","Arpora–Anjuna Rd, Porba · 9 AM–10 PM","~5 km","Wine Palace Porba Calangute Goa"],
+    ["Desai Wine Shop","Road into Candolim and Baga · well rated","~5 km","Desai Wine Shop Goa"],
+    ["Maharaja Wines","Calangute–Anjuna Rd, Arpora · 9 AM–10 PM","~6 km","Maharaja Wines Arpora Goa"],
+    ["Oxford Arcade","Anjuna supermarket · mixers, snacks, big liquor aisle","~11 km","Oxford Arcade Anjuna Goa"],
+    ["Good Luck Wines","Vagator junction · taste before you buy","~12 km","Good Luck Wines Vagator Goa"]
+  ];
+  var sh = "";
+  shops.forEach(function(s,i){
+    var col = ["var(--pink)","var(--orange)","var(--indigo)","var(--teal)","var(--green)","var(--blue)","var(--red)"][i];
+    sh += "<a class='row' href='https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(s[3])+"' target='_blank' rel='noopener'><span class='ic' style='background:"+col+"'><svg viewBox='0 0 24 24'><path d='M9 3h6M10 3v4l-3 4v9a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-9l-3-4V3'/></svg></span><span class='t'><b>"+esc(s[0])+"</b><small>"+esc(s[1])+"</small></span><span class='r'>"+s[2]+" <span class='chev'>›</span></span></a>";
+  });
+  $("#shoplist").innerHTML = sh;
+  var nmode = "clubs";
+  function renderNights(){
+    $("#clubs").hidden = nmode!=="clubs"; $("#shops").hidden = nmode!=="shops";
+    var btn = $("#seg2 [data-n='"+nmode+"']"); placeThumb($("#seg2"),$("#thumb2"),btn);
+  }
+  [].forEach.call($("#seg2").querySelectorAll("button"),function(b){ b.addEventListener("click",function(){nmode=b.dataset.n;renderNights()}); });
+  renderNights();
+
+  /* ---------- crew + rules ---------- */
+  var crew = ["Chiku","Tanqisha","Meetanshu","Ruchi","Dhruv","Heer","Meet","Manav"];
+  var cols = ["var(--orange)","var(--pink)","var(--indigo)","var(--teal)","var(--blue)","var(--green)","var(--red)","#AF52DE"];
+  $("#avatars").innerHTML = crew.map(function(n,i){return "<div class='av'><span style='background:"+cols[i]+"'>"+n[0]+"</span><small>"+n+"</small></div>"}).join("");
+  var rules = [
+    ["var(--red)","Dry day on the 26th","Republic Day. Buy for Monday night by 10 PM Monday."],
+    ["var(--orange)","No bottles home","Goa permits don't cover Maharashtra. Don't pack it on the train."],
+    ["var(--blue)","Scooty rules","Licence on you, helmet on always. Nobody rides after drinking."],
+    ["var(--teal)","Villa manners","Pool 7 AM–7 PM. Music down by 10 PM."],
+    ["var(--green)","Carry cash","UPI works most places, cards are patchy. Keep ₹2,000 each."],
+    ["var(--indigo)","Book ahead","Thalassa and Gunpowder need tables for 8."]
+  ];
+  $("#rules").innerHTML = rules.map(function(r){return "<div class='row'><span class='ic' style='background:"+r[0]+"'><svg viewBox='0 0 24 24'><path d='M5 12l5 5L20 7'/></svg></span><span class='t'><b>"+r[1]+"</b><small>"+r[2]+"</small></span><span></span></div>"}).join("");
+
+  /* ---------- router ---------- */
+  var views = ["trip","plan","money","nights","info"];
+  function route(){
+    var h = (location.hash||"").slice(1); if(views.indexOf(h)<0) h = "trip";
+    views.forEach(function(v){ $("#v-"+v).classList.toggle("on", v===h); });
+    [].forEach.call(document.querySelectorAll(".tabbar a"),function(a){ a.classList.toggle("on", a.dataset.v===h); if(a.dataset.v===h) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+    $("#tt").textContent = $("#v-"+h).dataset.title;
+    window.scrollTo(0,0);
+    if(h==="money"){ shown = 0; renderMoney(); }
+    if(h==="plan") showDay(cur);
+    if(h==="nights") renderNights();
+  }
+  window.addEventListener("hashchange",route);
+  document.querySelector("[data-scroll='villa']").addEventListener("click",function(e){ e.preventDefault(); var v=$("#villa"); window.scrollTo({top:v.getBoundingClientRect().top+scrollY-70,behavior:reduce?"auto":"smooth"}); });
+  route();
+
+  /* ---------- top bar ---------- */
+  var tb = $("#topbar");
+  function onScroll(){ tb.classList.toggle("solid", scrollY > 70); }
+  addEventListener("scroll",onScroll,{passive:true}); onScroll();
+})();
+</script>
+
+</body>
+</html>
