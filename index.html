@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Goa '27 Crew Trip</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<!-- installable app (Add to Home Screen) -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Goa '27">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: iOS-style single-column app; large titles, inset grouped lists, bento tiles, floating glass tab bar with five hash-routed views */
@@ -225,6 +235,10 @@ a.row:active,button.row:active{background:var(--fill)}
 :root[data-theme="dark"]{--purple:#BF5AF2;--brown:#AC8E68;--sb:#1C1C1E;--sc:#2C2C2E;--sf:#3A3A3C;--scrim:rgba(0,0,0,.55);--toast:rgba(58,58,60,.96)}
 
 [hidden]{display:none!important}
+
+/* update pill */
+.upd{position:fixed;left:50%;transform:translateX(-50%);top:calc(10px + env(safe-area-inset-top,0px));z-index:90;border:0;border-radius:999px;padding:9px 16px;font-size:14px;font-weight:600;white-space:nowrap;background:var(--blue);color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.18);cursor:pointer}
+.upd.done{background:var(--green);cursor:default}
 
 /* tab bar: 6 tabs (overrides width only) */
 .tabbar{width:min(480px,calc(100% - 24px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)))}
@@ -699,6 +713,8 @@ textarea.fi{resize:none;min-height:66px;line-height:1.4;padding-top:2px}
   <a href="#nights" data-v="nights"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>Nights</a>
   <a href="#info" data-v="info"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 13.6c3 .2 5.5 2 5.5 5"/></svg>Crew</a>
 </nav>
+<button class="upd" id="upd" type="button" hidden>New version ready · Tap to update</button>
+<div class="upd done" id="upd-done" role="status" hidden>Updated to the latest version</div>
 <button class="fab" id="sp-fab" type="button" aria-label="Add expense" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-plus"/></svg><span>Add expense</span></button>
 <div class="toast" id="sp-toast" role="status" aria-live="polite"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg><span></span><button type="button" hidden>Undo</button></div>
 
@@ -912,6 +928,32 @@ textarea.fi{resize:none;min-height:66px;line-height:1.4;padding-top:2px}
   var tb = $("#topbar");
   function onScroll(){ tb.classList.toggle("solid", scrollY > 70); }
   addEventListener("scroll",onScroll,{passive:true}); onScroll();
+
+  /* ---------- auto-update ---------- */
+  // Installed copies always run the newest version: sw.js loads the page fresh on every launch,
+  // and an open app checks GitHub Pages' version stamp (ETag) whenever it comes back on screen.
+  if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function(){});
+  var ver = null;
+  function stamp(){
+    return fetch(location.pathname,{method:"HEAD",cache:"no-store"})
+      .then(function(r){ return r.ok ? (r.headers.get("etag")||r.headers.get("last-modified")) : null; })
+      .catch(function(){ return null; });
+  }
+  stamp().then(function(t){ ver = t || "offline"; }); // offline at launch: the saved copy may be old
+  function reloadNow(){ try{sessionStorage.setItem("goa27-updated","1")}catch(x){} location.reload(); }
+  function checkUpdate(){
+    if(!ver) return;
+    stamp().then(function(t){
+      if(!t || t===ver) return;
+      if(document.querySelector(".sheet.open")){ $("#upd").hidden = false; return; } // don't lose a half-filled form
+      reloadNow();
+    });
+  }
+  $("#upd").addEventListener("click",reloadNow);
+  document.addEventListener("visibilitychange",function(){ if(!document.hidden) checkUpdate(); });
+  addEventListener("online",checkUpdate);
+  setInterval(checkUpdate,5*60e3);
+  try{ if(sessionStorage.getItem("goa27-updated")){ sessionStorage.removeItem("goa27-updated"); $("#upd-done").hidden = false; setTimeout(function(){ $("#upd-done").hidden = true; },3000); } }catch(x){}
 })();
 </script>
 
